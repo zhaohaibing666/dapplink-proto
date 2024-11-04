@@ -92,7 +92,7 @@ message BlockNumberRequest {
     bool view_tx = 5;
 }
 
-message BlockReonse {
+message BlockResponse {
     ReturnCode code = 1;
     string msg = 2;
     int64 height = 3;
@@ -329,11 +329,11 @@ service WalletAccoutService{
 
     rpc convertAddress(ConvertAddressRequest) returns (ConvertAddressResponse){}
 
-    rpc validAdress(ValidAddressRequest) returns (ValidAddressResponse) {}
+    rpc validAddress(ValidAddressRequest) returns (ValidAddressResponse) {}
 
-    rpc getBlockByNumber(BlockNumberRequest) returns (BlockReonse){}
+    rpc getBlockByNumber(BlockNumberRequest) returns (BlockResponse){}
 
-    rpc getBlockByHash(BlockHashRequest) returns (BlockReonse){}
+    rpc getBlockByHash(BlockHashRequest) returns (BlockResponse){}
 
     rpc getBlockHeaderByNumber(BlockHeaderNumberRequest) returns (BlockHeaderResponse){}
 
@@ -358,7 +358,7 @@ service WalletAccoutService{
     rpc decodeTransaction(DecodeTransactionRequest) returns (DecodeTransactionResponse) {}
 
     rpc verifySignedTransaction(VerifySignedTxRequest) returns (VerifySignedTxResponse){}
-
+    
     rpc getExtraData(ExtraDataRequest) returns (ExtraDataResponse) {}
 
 }
