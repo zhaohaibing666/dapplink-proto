@@ -21,7 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	WalletAccoutService_GetSupportChains_FullMethodName        = "/dapplink.account.WalletAccoutService/getSupportChains"
 	WalletAccoutService_ConvertAddress_FullMethodName          = "/dapplink.account.WalletAccoutService/convertAddress"
-	WalletAccoutService_ValidAdress_FullMethodName             = "/dapplink.account.WalletAccoutService/validAdress"
+	WalletAccoutService_ValidAddress_FullMethodName            = "/dapplink.account.WalletAccoutService/validAddress"
 	WalletAccoutService_GetBlockByNumber_FullMethodName        = "/dapplink.account.WalletAccoutService/getBlockByNumber"
 	WalletAccoutService_GetBlockByHash_FullMethodName          = "/dapplink.account.WalletAccoutService/getBlockByHash"
 	WalletAccoutService_GetBlockHeaderByNumber_FullMethodName  = "/dapplink.account.WalletAccoutService/getBlockHeaderByNumber"
@@ -32,7 +32,7 @@ const (
 	WalletAccoutService_GetTxByAddress_FullMethodName          = "/dapplink.account.WalletAccoutService/getTxByAddress"
 	WalletAccoutService_GetTxByHash_FullMethodName             = "/dapplink.account.WalletAccoutService/getTxByHash"
 	WalletAccoutService_GetBlockByRange_FullMethodName         = "/dapplink.account.WalletAccoutService/getBlockByRange"
-	WalletAccoutService_CreateUnsignTransaction_FullMethodName = "/dapplink.account.WalletAccoutService/createUnsignTransaction"
+	WalletAccoutService_CreateUnSignTransaction_FullMethodName = "/dapplink.account.WalletAccoutService/createUnSignTransaction"
 	WalletAccoutService_BuildSignedTransaction_FullMethodName  = "/dapplink.account.WalletAccoutService/buildSignedTransaction"
 	WalletAccoutService_DecodeTransaction_FullMethodName       = "/dapplink.account.WalletAccoutService/decodeTransaction"
 	WalletAccoutService_VerifySignedTransaction_FullMethodName = "/dapplink.account.WalletAccoutService/verifySignedTransaction"
@@ -43,11 +43,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletAccoutServiceClient interface {
-	GetSupportChains(ctx context.Context, in *SupportChainsRequest, opts ...grpc.CallOption) (*SupportChainsReponse, error)
-	ConvertAddress(ctx context.Context, in *ConvertAddressRequest, opts ...grpc.CallOption) (*ConvertAddressReponse, error)
-	ValidAdress(ctx context.Context, in *ValidAddressRequest, opts ...grpc.CallOption) (*ValidAddressResponse, error)
-	GetBlockByNumber(ctx context.Context, in *BlockNumberRequest, opts ...grpc.CallOption) (*BlockReonse, error)
-	GetBlockByHash(ctx context.Context, in *BlockHashRequest, opts ...grpc.CallOption) (*BlockReonse, error)
+	GetSupportChains(ctx context.Context, in *SupportChainsRequest, opts ...grpc.CallOption) (*SupportChainsResponse, error)
+	ConvertAddress(ctx context.Context, in *ConvertAddressRequest, opts ...grpc.CallOption) (*ConvertAddressResponse, error)
+	ValidAddress(ctx context.Context, in *ValidAddressRequest, opts ...grpc.CallOption) (*ValidAddressResponse, error)
+	GetBlockByNumber(ctx context.Context, in *BlockNumberRequest, opts ...grpc.CallOption) (*BlockResponse, error)
+	GetBlockByHash(ctx context.Context, in *BlockHashRequest, opts ...grpc.CallOption) (*BlockResponse, error)
 	GetBlockHeaderByNumber(ctx context.Context, in *BlockHeaderNumberRequest, opts ...grpc.CallOption) (*BlockHeaderResponse, error)
 	GetBlockHeaderByHash(ctx context.Context, in *BlockHeaderHashRequest, opts ...grpc.CallOption) (*BlockHeaderResponse, error)
 	GetAccount(ctx context.Context, in *AccountRequest, opts ...grpc.CallOption) (*AccountResponse, error)
@@ -55,12 +55,12 @@ type WalletAccoutServiceClient interface {
 	SendTx(ctx context.Context, in *SendTxRequest, opts ...grpc.CallOption) (*SendTxResponse, error)
 	GetTxByAddress(ctx context.Context, in *TxAddressRequest, opts ...grpc.CallOption) (*TxAddressResponse, error)
 	GetTxByHash(ctx context.Context, in *TxHashRequest, opts ...grpc.CallOption) (*TxHashResponse, error)
-	GetBlockByRange(ctx context.Context, in *BlockByRangeRequest, opts ...grpc.CallOption) (*BlockByRangeReponse, error)
-	CreateUnsignTransaction(ctx context.Context, in *UnSignTransactionRequest, opts ...grpc.CallOption) (*UnSignTransactionResponse, error)
+	GetBlockByRange(ctx context.Context, in *BlockByRangeRequest, opts ...grpc.CallOption) (*BlockByRangeResponse, error)
+	CreateUnSignTransaction(ctx context.Context, in *UnSignTransactionRequest, opts ...grpc.CallOption) (*UnSignTransactionResponse, error)
 	BuildSignedTransaction(ctx context.Context, in *SignedTransactionRequest, opts ...grpc.CallOption) (*SignedTransactionResponse, error)
-	DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionReponse, error)
+	DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionResponse, error)
 	VerifySignedTransaction(ctx context.Context, in *VerifySignedTxRequest, opts ...grpc.CallOption) (*VerifySignedTxResponse, error)
-	GetExtraData(ctx context.Context, in *ExtraDataRequest, opts ...grpc.CallOption) (*ExtraDataReponse, error)
+	GetExtraData(ctx context.Context, in *ExtraDataRequest, opts ...grpc.CallOption) (*ExtraDataResponse, error)
 }
 
 type walletAccoutServiceClient struct {
@@ -71,9 +71,9 @@ func NewWalletAccoutServiceClient(cc grpc.ClientConnInterface) WalletAccoutServi
 	return &walletAccoutServiceClient{cc}
 }
 
-func (c *walletAccoutServiceClient) GetSupportChains(ctx context.Context, in *SupportChainsRequest, opts ...grpc.CallOption) (*SupportChainsReponse, error) {
+func (c *walletAccoutServiceClient) GetSupportChains(ctx context.Context, in *SupportChainsRequest, opts ...grpc.CallOption) (*SupportChainsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SupportChainsReponse)
+	out := new(SupportChainsResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_GetSupportChains_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -81,9 +81,9 @@ func (c *walletAccoutServiceClient) GetSupportChains(ctx context.Context, in *Su
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) ConvertAddress(ctx context.Context, in *ConvertAddressRequest, opts ...grpc.CallOption) (*ConvertAddressReponse, error) {
+func (c *walletAccoutServiceClient) ConvertAddress(ctx context.Context, in *ConvertAddressRequest, opts ...grpc.CallOption) (*ConvertAddressResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConvertAddressReponse)
+	out := new(ConvertAddressResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_ConvertAddress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -91,19 +91,19 @@ func (c *walletAccoutServiceClient) ConvertAddress(ctx context.Context, in *Conv
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) ValidAdress(ctx context.Context, in *ValidAddressRequest, opts ...grpc.CallOption) (*ValidAddressResponse, error) {
+func (c *walletAccoutServiceClient) ValidAddress(ctx context.Context, in *ValidAddressRequest, opts ...grpc.CallOption) (*ValidAddressResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ValidAddressResponse)
-	err := c.cc.Invoke(ctx, WalletAccoutService_ValidAdress_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WalletAccoutService_ValidAddress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) GetBlockByNumber(ctx context.Context, in *BlockNumberRequest, opts ...grpc.CallOption) (*BlockReonse, error) {
+func (c *walletAccoutServiceClient) GetBlockByNumber(ctx context.Context, in *BlockNumberRequest, opts ...grpc.CallOption) (*BlockResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BlockReonse)
+	out := new(BlockResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_GetBlockByNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -111,9 +111,9 @@ func (c *walletAccoutServiceClient) GetBlockByNumber(ctx context.Context, in *Bl
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) GetBlockByHash(ctx context.Context, in *BlockHashRequest, opts ...grpc.CallOption) (*BlockReonse, error) {
+func (c *walletAccoutServiceClient) GetBlockByHash(ctx context.Context, in *BlockHashRequest, opts ...grpc.CallOption) (*BlockResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BlockReonse)
+	out := new(BlockResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_GetBlockByHash_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -191,9 +191,9 @@ func (c *walletAccoutServiceClient) GetTxByHash(ctx context.Context, in *TxHashR
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) GetBlockByRange(ctx context.Context, in *BlockByRangeRequest, opts ...grpc.CallOption) (*BlockByRangeReponse, error) {
+func (c *walletAccoutServiceClient) GetBlockByRange(ctx context.Context, in *BlockByRangeRequest, opts ...grpc.CallOption) (*BlockByRangeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BlockByRangeReponse)
+	out := new(BlockByRangeResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_GetBlockByRange_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -201,10 +201,10 @@ func (c *walletAccoutServiceClient) GetBlockByRange(ctx context.Context, in *Blo
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) CreateUnsignTransaction(ctx context.Context, in *UnSignTransactionRequest, opts ...grpc.CallOption) (*UnSignTransactionResponse, error) {
+func (c *walletAccoutServiceClient) CreateUnSignTransaction(ctx context.Context, in *UnSignTransactionRequest, opts ...grpc.CallOption) (*UnSignTransactionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UnSignTransactionResponse)
-	err := c.cc.Invoke(ctx, WalletAccoutService_CreateUnsignTransaction_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WalletAccoutService_CreateUnSignTransaction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -221,9 +221,9 @@ func (c *walletAccoutServiceClient) BuildSignedTransaction(ctx context.Context, 
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionReponse, error) {
+func (c *walletAccoutServiceClient) DecodeTransaction(ctx context.Context, in *DecodeTransactionRequest, opts ...grpc.CallOption) (*DecodeTransactionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DecodeTransactionReponse)
+	out := new(DecodeTransactionResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_DecodeTransaction_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -241,9 +241,9 @@ func (c *walletAccoutServiceClient) VerifySignedTransaction(ctx context.Context,
 	return out, nil
 }
 
-func (c *walletAccoutServiceClient) GetExtraData(ctx context.Context, in *ExtraDataRequest, opts ...grpc.CallOption) (*ExtraDataReponse, error) {
+func (c *walletAccoutServiceClient) GetExtraData(ctx context.Context, in *ExtraDataRequest, opts ...grpc.CallOption) (*ExtraDataResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ExtraDataReponse)
+	out := new(ExtraDataResponse)
 	err := c.cc.Invoke(ctx, WalletAccoutService_GetExtraData_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -255,11 +255,11 @@ func (c *walletAccoutServiceClient) GetExtraData(ctx context.Context, in *ExtraD
 // All implementations should embed UnimplementedWalletAccoutServiceServer
 // for forward compatibility.
 type WalletAccoutServiceServer interface {
-	GetSupportChains(context.Context, *SupportChainsRequest) (*SupportChainsReponse, error)
-	ConvertAddress(context.Context, *ConvertAddressRequest) (*ConvertAddressReponse, error)
-	ValidAdress(context.Context, *ValidAddressRequest) (*ValidAddressResponse, error)
-	GetBlockByNumber(context.Context, *BlockNumberRequest) (*BlockReonse, error)
-	GetBlockByHash(context.Context, *BlockHashRequest) (*BlockReonse, error)
+	GetSupportChains(context.Context, *SupportChainsRequest) (*SupportChainsResponse, error)
+	ConvertAddress(context.Context, *ConvertAddressRequest) (*ConvertAddressResponse, error)
+	ValidAddress(context.Context, *ValidAddressRequest) (*ValidAddressResponse, error)
+	GetBlockByNumber(context.Context, *BlockNumberRequest) (*BlockResponse, error)
+	GetBlockByHash(context.Context, *BlockHashRequest) (*BlockResponse, error)
 	GetBlockHeaderByNumber(context.Context, *BlockHeaderNumberRequest) (*BlockHeaderResponse, error)
 	GetBlockHeaderByHash(context.Context, *BlockHeaderHashRequest) (*BlockHeaderResponse, error)
 	GetAccount(context.Context, *AccountRequest) (*AccountResponse, error)
@@ -267,12 +267,12 @@ type WalletAccoutServiceServer interface {
 	SendTx(context.Context, *SendTxRequest) (*SendTxResponse, error)
 	GetTxByAddress(context.Context, *TxAddressRequest) (*TxAddressResponse, error)
 	GetTxByHash(context.Context, *TxHashRequest) (*TxHashResponse, error)
-	GetBlockByRange(context.Context, *BlockByRangeRequest) (*BlockByRangeReponse, error)
-	CreateUnsignTransaction(context.Context, *UnSignTransactionRequest) (*UnSignTransactionResponse, error)
+	GetBlockByRange(context.Context, *BlockByRangeRequest) (*BlockByRangeResponse, error)
+	CreateUnSignTransaction(context.Context, *UnSignTransactionRequest) (*UnSignTransactionResponse, error)
 	BuildSignedTransaction(context.Context, *SignedTransactionRequest) (*SignedTransactionResponse, error)
-	DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionReponse, error)
+	DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error)
 	VerifySignedTransaction(context.Context, *VerifySignedTxRequest) (*VerifySignedTxResponse, error)
-	GetExtraData(context.Context, *ExtraDataRequest) (*ExtraDataReponse, error)
+	GetExtraData(context.Context, *ExtraDataRequest) (*ExtraDataResponse, error)
 }
 
 // UnimplementedWalletAccoutServiceServer should be embedded to have
@@ -282,19 +282,19 @@ type WalletAccoutServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedWalletAccoutServiceServer struct{}
 
-func (UnimplementedWalletAccoutServiceServer) GetSupportChains(context.Context, *SupportChainsRequest) (*SupportChainsReponse, error) {
+func (UnimplementedWalletAccoutServiceServer) GetSupportChains(context.Context, *SupportChainsRequest) (*SupportChainsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSupportChains not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) ConvertAddress(context.Context, *ConvertAddressRequest) (*ConvertAddressReponse, error) {
+func (UnimplementedWalletAccoutServiceServer) ConvertAddress(context.Context, *ConvertAddressRequest) (*ConvertAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConvertAddress not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) ValidAdress(context.Context, *ValidAddressRequest) (*ValidAddressResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidAdress not implemented")
+func (UnimplementedWalletAccoutServiceServer) ValidAddress(context.Context, *ValidAddressRequest) (*ValidAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidAddress not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) GetBlockByNumber(context.Context, *BlockNumberRequest) (*BlockReonse, error) {
+func (UnimplementedWalletAccoutServiceServer) GetBlockByNumber(context.Context, *BlockNumberRequest) (*BlockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlockByNumber not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) GetBlockByHash(context.Context, *BlockHashRequest) (*BlockReonse, error) {
+func (UnimplementedWalletAccoutServiceServer) GetBlockByHash(context.Context, *BlockHashRequest) (*BlockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlockByHash not implemented")
 }
 func (UnimplementedWalletAccoutServiceServer) GetBlockHeaderByNumber(context.Context, *BlockHeaderNumberRequest) (*BlockHeaderResponse, error) {
@@ -318,22 +318,22 @@ func (UnimplementedWalletAccoutServiceServer) GetTxByAddress(context.Context, *T
 func (UnimplementedWalletAccoutServiceServer) GetTxByHash(context.Context, *TxHashRequest) (*TxHashResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTxByHash not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) GetBlockByRange(context.Context, *BlockByRangeRequest) (*BlockByRangeReponse, error) {
+func (UnimplementedWalletAccoutServiceServer) GetBlockByRange(context.Context, *BlockByRangeRequest) (*BlockByRangeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlockByRange not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) CreateUnsignTransaction(context.Context, *UnSignTransactionRequest) (*UnSignTransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUnsignTransaction not implemented")
+func (UnimplementedWalletAccoutServiceServer) CreateUnSignTransaction(context.Context, *UnSignTransactionRequest) (*UnSignTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUnSignTransaction not implemented")
 }
 func (UnimplementedWalletAccoutServiceServer) BuildSignedTransaction(context.Context, *SignedTransactionRequest) (*SignedTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BuildSignedTransaction not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionReponse, error) {
+func (UnimplementedWalletAccoutServiceServer) DecodeTransaction(context.Context, *DecodeTransactionRequest) (*DecodeTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DecodeTransaction not implemented")
 }
 func (UnimplementedWalletAccoutServiceServer) VerifySignedTransaction(context.Context, *VerifySignedTxRequest) (*VerifySignedTxResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifySignedTransaction not implemented")
 }
-func (UnimplementedWalletAccoutServiceServer) GetExtraData(context.Context, *ExtraDataRequest) (*ExtraDataReponse, error) {
+func (UnimplementedWalletAccoutServiceServer) GetExtraData(context.Context, *ExtraDataRequest) (*ExtraDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExtraData not implemented")
 }
 func (UnimplementedWalletAccoutServiceServer) testEmbeddedByValue() {}
@@ -392,20 +392,20 @@ func _WalletAccoutService_ConvertAddress_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WalletAccoutService_ValidAdress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _WalletAccoutService_ValidAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ValidAddressRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletAccoutServiceServer).ValidAdress(ctx, in)
+		return srv.(WalletAccoutServiceServer).ValidAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WalletAccoutService_ValidAdress_FullMethodName,
+		FullMethod: WalletAccoutService_ValidAddress_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletAccoutServiceServer).ValidAdress(ctx, req.(*ValidAddressRequest))
+		return srv.(WalletAccoutServiceServer).ValidAddress(ctx, req.(*ValidAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -590,20 +590,20 @@ func _WalletAccoutService_GetBlockByRange_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WalletAccoutService_CreateUnsignTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _WalletAccoutService_CreateUnSignTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UnSignTransactionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletAccoutServiceServer).CreateUnsignTransaction(ctx, in)
+		return srv.(WalletAccoutServiceServer).CreateUnSignTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WalletAccoutService_CreateUnsignTransaction_FullMethodName,
+		FullMethod: WalletAccoutService_CreateUnSignTransaction_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletAccoutServiceServer).CreateUnsignTransaction(ctx, req.(*UnSignTransactionRequest))
+		return srv.(WalletAccoutServiceServer).CreateUnSignTransaction(ctx, req.(*UnSignTransactionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -696,8 +696,8 @@ var WalletAccoutService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WalletAccoutService_ConvertAddress_Handler,
 		},
 		{
-			MethodName: "validAdress",
-			Handler:    _WalletAccoutService_ValidAdress_Handler,
+			MethodName: "validAddress",
+			Handler:    _WalletAccoutService_ValidAddress_Handler,
 		},
 		{
 			MethodName: "getBlockByNumber",
@@ -740,8 +740,8 @@ var WalletAccoutService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WalletAccoutService_GetBlockByRange_Handler,
 		},
 		{
-			MethodName: "createUnsignTransaction",
-			Handler:    _WalletAccoutService_CreateUnsignTransaction_Handler,
+			MethodName: "createUnSignTransaction",
+			Handler:    _WalletAccoutService_CreateUnSignTransaction_Handler,
 		},
 		{
 			MethodName: "buildSignedTransaction",

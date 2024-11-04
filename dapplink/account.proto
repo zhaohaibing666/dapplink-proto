@@ -351,7 +351,7 @@ service WalletAccoutService{
 
     rpc getBlockByRange(BlockByRangeRequest) returns (BlockByRangeResponse) {}
 
-    rpc createUnsignTransaction(UnSignTransactionRequest) returns (UnSignTransactionResponse) {}
+    rpc createUnSignTransaction(UnSignTransactionRequest) returns (UnSignTransactionResponse) {}
 
     rpc buildSignedTransaction(SignedTransactionRequest) returns (SignedTransactionResponse) {}
 
