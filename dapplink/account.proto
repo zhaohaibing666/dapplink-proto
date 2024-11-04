@@ -49,7 +49,7 @@ message SupportChainsRequest {
     string network = 3;
 }
 
-message SupportChainsReponse {
+message SupportChainsResponse {
     ReturnCode code = 1;
     string msg = 2;
     bool support = 3;
@@ -62,7 +62,7 @@ message ConvertAddressRequest {
     bytes public_key = 4;
 }
 
-message ConvertAddressReponse {
+message ConvertAddressResponse {
     ReturnCode code = 1;
     string msg = 2;
     string address = 3;
@@ -250,7 +250,7 @@ message BlockByRangeRequest {
     string end = 5;
 }
 
-message BlockByRangeReponse {
+message BlockByRangeResponse {
     ReturnCode code = 1;
     string msg = 2;
     repeated BlockData Blocks = 3;
@@ -291,7 +291,7 @@ message DecodeTransactionRequest {
     string raw_tx = 4;
 }
 
-message DecodeTransactionReponse {
+message DecodeTransactionResponse {
     ReturnCode code = 1;
     string msg = 2;
     string base64_tx = 3;
@@ -318,16 +318,16 @@ message ExtraDataRequest {
     string address = 4;
     string coin = 5;
 }
-message ExtraDataReponse {
+message ExtraDataResponse {
     ReturnCode code = 1;
     string msg = 2;
     string value = 3;
 }
 
 service WalletAccoutService{
-    rpc getSupportChains(SupportChainsRequest) returns (SupportChainsReponse){}
+    rpc getSupportChains(SupportChainsRequest) returns (SupportChainsResponse){}
 
-    rpc convertAddress(ConvertAddressRequest) returns (ConvertAddressReponse){}
+    rpc convertAddress(ConvertAddressRequest) returns (ConvertAddressResponse){}
 
     rpc validAdress(ValidAddressRequest) returns (ValidAddressResponse) {}
 
@@ -349,16 +349,16 @@ service WalletAccoutService{
 
     rpc getTxByHash(TxHashRequest) returns (TxHashResponse){}
 
-    rpc getBlockByRange(BlockByRangeRequest) returns (BlockByRangeReponse) {}
+    rpc getBlockByRange(BlockByRangeRequest) returns (BlockByRangeResponse) {}
 
     rpc createUnsignTransaction(UnSignTransactionRequest) returns (UnSignTransactionResponse) {}
 
     rpc buildSignedTransaction(SignedTransactionRequest) returns (SignedTransactionResponse) {}
 
-    rpc decodeTransaction(DecodeTransactionRequest) returns (DecodeTransactionReponse) {}
+    rpc decodeTransaction(DecodeTransactionRequest) returns (DecodeTransactionResponse) {}
 
     rpc verifySignedTransaction(VerifySignedTxRequest) returns (VerifySignedTxResponse){}
 
-    rpc getExtraData(ExtraDataRequest) returns (ExtraDataReponse) {}
+    rpc getExtraData(ExtraDataRequest) returns (ExtraDataResponse) {}
 
 }
