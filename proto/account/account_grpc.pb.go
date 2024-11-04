@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: dapplink/account.proto
 
-package accout
+package account
 
 import (
 	context "context"
